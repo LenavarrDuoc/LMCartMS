@@ -11,5 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface ToAPICatalogFeign {
 
     @GetMapping("/{id}")
-    public ProductoDTO obtener(@PathVariable Long id);
+    ProductoDTO obtener(@PathVariable Long id);
+
+    @GetMapping("/exists-by-id/{id}")
+    Boolean existsById(@PathVariable Long id);
 }

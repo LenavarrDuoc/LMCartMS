@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IdExisteException.class)
-    public ProblemDetail handlerNoExisteID(IdExisteException exception){
+    public ProblemDetail handlerExisteID(IdExisteException exception){
         ProblemDetail problemDetail = ProblemDetail.forStatus(409); //HTTP 409 = conlficto de datos
         problemDetail.setTitle(title2);
         problemDetail.setDetail(exception.getMessage());
@@ -34,6 +34,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IdNoExisteException.class)
     public ProblemDetail handlerNoExisteID(IdNoExisteException exception){
+        ProblemDetail problemDetail = ProblemDetail.forStatus(404); //HTTP 404 = no encontrado
+        problemDetail.setTitle(title3);
+        problemDetail.setDetail(exception.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(InventarioInsuficienteException.class)
+    public ProblemDetail handlerInventarioInsuficiente(InventarioInsuficienteException exception){
+        ProblemDetail problemDetail = ProblemDetail.forStatus(404); //HTTP 404 = no encontrado
+        problemDetail.setTitle(title3);
+        problemDetail.setDetail(exception.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(ProductoDescontinuadoException.class)
+    public ProblemDetail handlerProductoDescontinuado(ProductoDescontinuadoException exception){
         ProblemDetail problemDetail = ProblemDetail.forStatus(404); //HTTP 404 = no encontrado
         problemDetail.setTitle(title3);
         problemDetail.setDetail(exception.getMessage());
