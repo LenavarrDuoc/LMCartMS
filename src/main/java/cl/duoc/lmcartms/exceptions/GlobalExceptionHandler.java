@@ -1,4 +1,4 @@
-package cl.duoc.lmstockms.exceptions;
+package cl.duoc.lmcartms.exceptions;
 
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;

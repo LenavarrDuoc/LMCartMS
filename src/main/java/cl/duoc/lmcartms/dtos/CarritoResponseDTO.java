@@ -4,9 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarritoInputDTO {
+public class CarritoResponseDTO {
+    private Long clienteId;
+    private List<DetalleResponseDTO> detalles;
+    private Double total; //No existe en persistencia en tabla Carrito. Lo calcula con método getTotal invocado en el mapeo.
 
 }

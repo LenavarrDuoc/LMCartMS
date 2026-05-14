@@ -1,4 +1,4 @@
-package cl.duoc.lmorderms.security;
+package cl.duoc.lmcartms.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

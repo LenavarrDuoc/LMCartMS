@@ -1,4 +1,4 @@
-package cl.duoc.lmcustomerms.exceptions;
+package cl.duoc.lmcartms.exceptions;
 
 public class IdNoExisteException extends RuntimeException {
     public IdNoExisteException(String message) {

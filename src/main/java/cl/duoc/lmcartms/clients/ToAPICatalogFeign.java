@@ -1,6 +1,6 @@
-package cl.duoc.lmstockms.clients;
+package cl.duoc.lmcartms.clients;
 
-import cl.duoc.lmstockms.dtos.ProductoDTO;
+import cl.duoc.lmcartms.dtos.ProductoDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

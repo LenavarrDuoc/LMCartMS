@@ -1,10 +1,9 @@
-package cl.duoc.lmcartms.entities;
+package cl.duoc.lmcartms.repositories;
 
 import cl.duoc.lmcartms.models.Carrito;
-import jakarta.persistence.Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CarritoEntity extends JpaRepository<Carrito,Long> {
+public interface CarritoRepository extends JpaRepository<Carrito,Long> {
 }
