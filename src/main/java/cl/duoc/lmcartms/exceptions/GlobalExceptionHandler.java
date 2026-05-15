@@ -12,6 +12,7 @@ public class GlobalExceptionHandler {
     String title1 = "Error validación de datos."; //para HTTP 400
     String title2 = "Conflicto de datos."; //para HTTP 409
     String title3 = "Objeto no encontrado"; //para HTTP 404
+    String title4 = "Objeto no procesable"; //para HTTP 422
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ProblemDetail handlerValidation(MethodArgumentNotValidException exception){
@@ -42,16 +43,24 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InventarioInsuficienteException.class)
     public ProblemDetail handlerInventarioInsuficiente(InventarioInsuficienteException exception){
-        ProblemDetail problemDetail = ProblemDetail.forStatus(404); //HTTP 404 = no encontrado
-        problemDetail.setTitle(title3);
+        ProblemDetail problemDetail = ProblemDetail.forStatus(409); //HTTP 404 = no encontrado
+        problemDetail.setTitle(title2);
         problemDetail.setDetail(exception.getMessage());
         return problemDetail;
     }
 
     @ExceptionHandler(ProductoDescontinuadoException.class)
     public ProblemDetail handlerProductoDescontinuado(ProductoDescontinuadoException exception){
-        ProblemDetail problemDetail = ProblemDetail.forStatus(404); //HTTP 404 = no encontrado
+        ProblemDetail problemDetail = ProblemDetail.forStatus(422); //HTTP 404 = no encontrado
         problemDetail.setTitle(title3);
+        problemDetail.setDetail(exception.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(CantidadNulaException.class)
+    public ProblemDetail handlerCantidadNula(CantidadNulaException exception){
+        ProblemDetail problemDetail = ProblemDetail.forStatus(422); //HTTP 404 = no encontrado
+        problemDetail.setTitle(title4);
         problemDetail.setDetail(exception.getMessage());
         return problemDetail;
     }

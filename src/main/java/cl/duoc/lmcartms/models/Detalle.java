@@ -29,8 +29,6 @@ public class Detalle {
     @JoinColumn(name = "fk_carrito_id")
     private Carrito carrito;
 
-    @PrePersist
-    @PreUpdate
     public void calcSubtotal() {
         if (this.precio != null && this.cantidad != null) {
             this.subtotal = this.precio * this.cantidad;

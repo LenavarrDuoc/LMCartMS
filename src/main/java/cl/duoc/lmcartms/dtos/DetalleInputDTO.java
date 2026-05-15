@@ -11,16 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DetalleInputDTO {
 
-    @PositiveOrZero
+    @Positive
     private Long clienteId;
 
-    @PositiveOrZero
+    @Positive
     private Long productoId;
 
-    @Positive
+    @PositiveOrZero
     private Integer cantidad;
 
-    @Positive
-    private Double precio;
 
 }

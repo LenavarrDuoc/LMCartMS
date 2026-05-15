@@ -29,10 +29,14 @@ public class Carrito {
     @Column(name = "fec_mod")
     private LocalDateTime fechaModificacion;
 
-    public void addDetalle(Detalle newDetalle){//corrobora si existe detalle de compra con mismo id de detalle, y con mismo id de producto. Si coincide el id de producto, suma la cantidad. Si no, agrega un nuevo detalle al carrito. Está hecho funcional en vez de por casos.
-        this.detalles.stream().filter(d -> d.getProductoId().equals(newDetalle.getProductoId())).findFirst().ifPresentOrElse(d -> {d.setCantidad(d.getCantidad()+newDetalle.getCantidad());}, () -> {this.detalles.add(newDetalle);
+    public void addDetalle(Detalle newDetalle){//corrobora si existe detalle de compra con mismo id de detalle, y con mismo id de producto. Si coincide el id de producto, actualiza la cantidad, y actualiza el subtotal del detalle. Si no, calcula el subtotal del nuevo detalle y lo agrega al carrito. Está hecho funcional en vez de por casos.
+        this.detalles.stream().filter(d -> d.getProductoId().equals(newDetalle.getProductoId())).findFirst().ifPresentOrElse(d -> {d.setCantidad(newDetalle.getCantidad()); d.calcSubtotal();}, () -> {newDetalle.calcSubtotal(); this.detalles.add(newDetalle);
             newDetalle.setCarrito(this);});
 
+    }
+
+    public void removeDetalle(Detalle detalle){ //Debe ser .equals y no "==" porque el igualador "==" trabaja a nivel de lo almacenado en memoria (RAM). Daría fallo si compara datos grandes porque, por ejemplo, no estarán números grandes en la ram. Equals, compara que sean iguales sea de donde sea que vengan los datos (de persistencia o de memoria volátil).
+        this.detalles.removeIf(d -> d.getProductoId().equals(detalle.getProductoId()));
     }
 
     public Double getTotal() {

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.List;
 
+//BORRAR: No sirve ya el DTO DE INGRESO DE CARRITO.
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -10,7 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CarritoResponseDTO {
+
     private Long clienteId;
+    private String nombreCliente;
+    private String runCliente;
     private List<DetalleResponseDTO> detalles;
     private Double total; //No existe en persistencia en tabla Carrito. Lo calcula con método getTotal invocado en el mapeo.
 
