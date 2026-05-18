@@ -1,6 +1,7 @@
 package cl.duoc.lmcartms.controllers;
 
 import cl.duoc.lmcartms.Service.CarritoService;
+import cl.duoc.lmcartms.dtos.CarritoOrderResponseDTO;
 import cl.duoc.lmcartms.dtos.CarritoResponseDTO;
 import cl.duoc.lmcartms.dtos.DetalleInputDTO;
 import jakarta.validation.Valid;
@@ -43,6 +44,20 @@ public class CarritoRESTController {
         String logMsg = "Solicitud para buscar carrito por ID: " + id + ".";
         logger.info(logMsgRequest);
         CarritoResponseDTO dto = carritoService.findById(id);
+        if (dto != null){
+            logger.info(logMsg + "=> encontrado.");
+            return ResponseEntity.ok(dto);
+        }
+        logger.info(logMsg + "=> no encontrado.");
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/get-cart-for-sell-order/{id}")
+    public ResponseEntity<CarritoOrderResponseDTO> findByIdForOrder(@PathVariable Long id){
+        String logMsgRequest = "Recibiendo solicitud para buscar carrito por ID: " + id + ".";
+        String logMsg = "Solicitud para buscar carrito por ID: " + id + ".";
+        logger.info(logMsgRequest);
+        CarritoOrderResponseDTO dto = carritoService.sendById(id);
         if (dto != null){
             logger.info(logMsg + "=> encontrado.");
             return ResponseEntity.ok(dto);

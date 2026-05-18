@@ -1,31 +1,33 @@
 package cl.duoc.lmcartms.mappers;
 
 import cl.duoc.lmcartms.clients.ToAPICustomerFeign;
+import cl.duoc.lmcartms.dtos.CarritoOrderResponseDTO;
 import cl.duoc.lmcartms.dtos.CarritoResponseDTO;
 import cl.duoc.lmcartms.dtos.ClienteOrderResponseDTO;
 import cl.duoc.lmcartms.models.Carrito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+//Está un DTO distinto que entrega objetos a las APIs que lo consuman. Es igual al CarritoResponseDTO, pero se deja en caso de que se requiera modificación. Mientras que CarritoResponseDto está para mostrar al objeto creado durante .save
 @Component
-public class CarritoResponseMapper {
+public class CarritoOrderResponseMapper {
 
     @Autowired
-    DetalleResponseMapper detalleResponseMapper;
+    DetalleOrderResponseMapper detalleOrderResponseMapper;
 
-    //Como buena práctica, las llamadas a otros microservicios deberían hacerse en la capa Service para que, en caso de tener error, queden registradas en el log y se detecte problemas (uno hace seguimiento a las capas y no a los mapeadores)
     @Autowired
     ToAPICustomerFeign toAPICustomerFeign;
 
-    public CarritoResponseDTO toDto(Carrito ent) {
+    public CarritoOrderResponseDTO toDto(Carrito ent) {
         ClienteOrderResponseDTO clienteDto = toAPICustomerFeign.findById(ent.getClienteId());
 
-        CarritoResponseDTO dto = new CarritoResponseDTO();
+        CarritoOrderResponseDTO dto = new CarritoOrderResponseDTO();
+
         dto.setClienteId(ent.getClienteId());
         dto.setNombreCliente(clienteDto.getNombre());
         dto.setRunCliente(clienteDto.getRun());
         //Stream de lista de detalles del carrito. Mapper de detalleResponse agrega datos del producto al conectarse a Producto de LMCatalogMS via FEIGN:
-        dto.setDetalles(ent.getDetalles().stream().map(detalleResponseMapper::toDto).toList());
+        dto.setDetalles(ent.getDetalles().stream().map(detalleOrderResponseMapper::toDto).toList());
         dto.setTotal(ent.getTotal());
         return dto;
     }

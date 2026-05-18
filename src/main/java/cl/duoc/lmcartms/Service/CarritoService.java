@@ -3,16 +3,14 @@ package cl.duoc.lmcartms.Service;
 import cl.duoc.lmcartms.clients.ToAPICatalogFeign;
 import cl.duoc.lmcartms.clients.ToAPICustomerFeign;
 import cl.duoc.lmcartms.clients.ToAPIStockFeign;
-import cl.duoc.lmcartms.dtos.CarritoResponseDTO;
+import cl.duoc.lmcartms.dtos.*;
 
-import cl.duoc.lmcartms.dtos.DetalleInputDTO;
-import cl.duoc.lmcartms.dtos.InventarioResponseDTO;
-import cl.duoc.lmcartms.dtos.ProductoDTO;
 import cl.duoc.lmcartms.exceptions.CantidadNulaException;
 import cl.duoc.lmcartms.exceptions.IdNoExisteException;
 import cl.duoc.lmcartms.exceptions.InventarioInsuficienteException;
 import cl.duoc.lmcartms.exceptions.ProductoDescontinuadoException;
 
+import cl.duoc.lmcartms.mappers.CarritoOrderResponseMapper;
 import cl.duoc.lmcartms.mappers.CarritoResponseMapper;
 
 import cl.duoc.lmcartms.mappers.DetalleInputMapper;
@@ -34,6 +32,9 @@ public class CarritoService {
 
     @Autowired
     CarritoResponseMapper carritoResponseMapper;
+
+    @Autowired
+    CarritoOrderResponseMapper carritoOrderResponseMapper;
 
     @Autowired
     DetalleInputMapper detalleInputMapper;
@@ -113,11 +114,11 @@ public class CarritoService {
         return carritoResponseMapper.toDto(carritoRepository.findById(id).orElseThrow(() -> new IdNoExisteException("ID de carrito no existe.")));
     }
 
-//    //UPDATE //Mantenido solo en caso de requerir algo así.
-//    public CarritoResponseDTO update(CarritoUpdateDTO dto) {
-//        Carrito ent = carritoRepository.findById(dto.getClienteId()).orElseThrow(() -> new IdNoExisteException("ID de carrito no existe."));
-//        return carritoResponseMapper.toDto(carritoRepository.save(carritoUpdateMapper.toEntity(ent, dto)));
-//    }
+    @Transactional(readOnly = true)
+    public CarritoOrderResponseDTO sendById(Long id) {
+        
+        return carritoOrderResponseMapper.toDto(carritoRepository.findById(id).orElseThrow(() -> new IdNoExisteException("ID de carrito no existe.")));
+    }
 
     //DELETE:
     @Transactional
