@@ -4,6 +4,13 @@ import cl.duoc.lmcartms.Service.CarritoService;
 import cl.duoc.lmcartms.dtos.CarritoOrderResponseDTO;
 import cl.duoc.lmcartms.dtos.CarritoResponseDTO;
 import cl.duoc.lmcartms.dtos.DetalleInputDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +23,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/carritos")
+@Tag(name = "Carritos", description = "Gestión de carritos de compra.")
 public class CarritoRESTController {
 
     private static final Logger logger = LoggerFactory.getLogger(CarritoRESTController.class.getName());
@@ -24,7 +32,29 @@ public class CarritoRESTController {
     private CarritoService carritoService;
 
     //CREATE:
+    @ApiResponses( value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Se ha creado registro",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = CarritoResponseDTO.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Sintáxis incorrecta",
+                    content = @Content(schema = @Schema(hidden = true))
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflicto al hacer solicitud (ej: carritoId ya existe)",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    }
+    )
     @PostMapping
+    @Operation(summary = "Crear carrito.", description = "Guardar un registro de nuevo carrito de compras. Solo puede existir un carrito por ID de cliente.")
     public ResponseEntity<CarritoResponseDTO> agregarProducto(@Valid @RequestBody DetalleInputDTO dto){
         String logMsgRequest = "Recibiendo solicitud para crear/guardar carrito.";
         String logMsg = "Solicitud para crear/guardar/actualizar carrito.";
@@ -38,8 +68,30 @@ public class CarritoRESTController {
     }
 
     //READ:
+    @ApiResponses( value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Se ha encontrado registro perteneciente a carrito según ID ingresado.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = CarritoResponseDTO.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Sintáxis incorrecta",
+                    content = @Content(schema = @Schema(hidden = true))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No se ha encontrado registro perteneciente a carrito según ID ingresado.",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    }
+    )
     @GetMapping("/{id}")
-    public ResponseEntity<CarritoResponseDTO> findById(@PathVariable Long id){
+    @Operation(summary = "Buscar carrito por ID.", description = "Traer el registro pertenenciente a un carrito según inglés.")
+    public ResponseEntity<CarritoResponseDTO> findById(@Parameter(description = "ID de carrito", required = true) @PathVariable Long id){
         String logMsgRequest = "Recibiendo solicitud para buscar carrito por ID: " + id + ".";
         String logMsg = "Solicitud para buscar carrito por ID: " + id + ".";
         logger.info(logMsgRequest);
@@ -52,8 +104,30 @@ public class CarritoRESTController {
         return ResponseEntity.notFound().build();
     }
 
+    @ApiResponses( value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Se ha encontrado registro perteneciente a carrito según ID ingresado.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = CarritoOrderResponseDTO.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Sintáxis incorrecta",
+                    content = @Content(schema = @Schema(hidden = true))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No se ha encontrado registro perteneciente a carrito según ID ingresado.",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    }
+    )
     @GetMapping("/get-cart-for-sell-order/{id}")
-    public ResponseEntity<CarritoOrderResponseDTO> findByIdForOrder(@PathVariable Long id){
+    @Operation(summary = "Buscar carrito por ID (función llamada desde servicio de venta LMSellMS).", description = "Traer el registro pertenenciente a un carrito según ID ingresado.")
+    public ResponseEntity<CarritoOrderResponseDTO> findByIdForOrder(@Parameter(description = "ID de carrito", required = true) @PathVariable Long id){
         String logMsgRequest = "Recibiendo solicitud para buscar carrito por ID: " + id + ".";
         String logMsg = "Solicitud para buscar carrito por ID: " + id + ".";
         logger.info(logMsgRequest);
@@ -67,8 +141,26 @@ public class CarritoRESTController {
     }
 
     //DELETE:
+    @ApiResponses( value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Se ha eliminado registro."
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Sintáxis incorrecta",
+                    content = @Content(schema = @Schema(hidden = true))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "No se han encontrado registro de carrito según ID ingresado.",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    }
+    )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+    @Operation(summary = "Eliminar carrito por ID.", description = "Eliminar el registro pertenenciente a un carrito según ID ingresado.")
+    public ResponseEntity<Void> deleteById(@Parameter(description = "ID de carrito", required = true) @PathVariable Long id){
         String logMsgRequest = "Recibiendo solicitud para borrar carrito con ID: " + id + ".";
         String logMsg = "Solicitud para borrar carrito con ID: " + id + ".";
         logger.info(logMsgRequest);
