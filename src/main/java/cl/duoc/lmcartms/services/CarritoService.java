@@ -1,11 +1,10 @@
-package cl.duoc.lmcartms.Service;
+package cl.duoc.lmcartms.services;
 
 import cl.duoc.lmcartms.clients.ToAPICatalogFeign;
 import cl.duoc.lmcartms.clients.ToAPICustomerFeign;
 import cl.duoc.lmcartms.clients.ToAPIStockFeign;
 import cl.duoc.lmcartms.dtos.*;
 
-import cl.duoc.lmcartms.exceptions.CantidadNulaException;
 import cl.duoc.lmcartms.exceptions.IdNoExisteException;
 import cl.duoc.lmcartms.exceptions.InventarioInsuficienteException;
 import cl.duoc.lmcartms.exceptions.ProductoDescontinuadoException;

@@ -1,8 +1,8 @@
 -- 1. Crear la tabla de carritos primero (Note que no lleva AUTO_INCREMENT)
 CREATE TABLE carritos (
                           cliente_id BIGINT PRIMARY KEY, -- El ID del cliente actúa como Clave Primaria directa
-                          fec_crea DATETIME NOT NULL,
-                          fec_mod DATETIME NOT NULL
+                          fec_crea TIMESTAMP NOT NULL,
+                          fec_mod TIMESTAMP NOT NULL
 );
 
 -- 2. Crear la tabla de detalles (Lado "Muchos" con FK hacia carritos)
